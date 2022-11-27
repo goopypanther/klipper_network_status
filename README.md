@@ -46,3 +46,5 @@ name: Wifi IP: {printer.network_status.wifiip}
 I find that the text can be a little long for smaller displays so it may help
 readability to put the actual hostname or IP address on its own line. It should
 scroll side to side when the selection cursor hovers over it.
+
+Optionally you can add an `interval` parameter to your klipper config under the `[network_status]` section to select how often the network information is updated. Default is once per minute if you do not specify.
