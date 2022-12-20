@@ -21,35 +21,6 @@ link_extension()
     ln -sf "${SRCDIR}/network_status.py" "${KLIPPER_PATH}/klippy/extras/network_status.py"
 }
 
-# Step 3: Install startup script
-install_script()
-{
-# Create systemd service file
-    SERVICE_FILE="${SYSTEMDDIR}/network_status.service"
-    #[ -f $SERVICE_FILE ] && return
-    if [ -f $SERVICE_FILE ]; then
-        sudo rm "$SERVICE_FILE"
-    fi
-
-    echo "Installing system start script..."
-    sudo /bin/sh -c "cat > ${SERVICE_FILE}" << EOF
-[Unit]
-Description=Dummy Service for klipper_network_status plugin
-After=klipper.service
-[Service]
-Type=oneshot
-RemainAfterExit=yes
-ExecStart=/bin/bash -c 'exec -a klipper_network_status sleep 1'
-ExecStopPost=/usr/sbin/service klipper restart
-TimeoutStopSec=1s
-[Install]
-WantedBy=multi-user.target
-EOF
-# Use systemctl to enable the systemd service script
-    sudo systemctl daemon-reload
-    sudo systemctl enable network_status.service
-}
-
 # Step 4: restarting Klipper
 restart_klipper()
 {
@@ -82,6 +53,5 @@ done
 # Run steps
 verify_ready
 link_extension
-install_script
 restart_klipper
 
