@@ -4,6 +4,8 @@ import os, logging
 class network_status:
     def __init__(self, config):
         self.interval = config.getint('interval', 60, minval=10)
+        self.intethname = config.get('intethname', 'eth0')
+        self.intwifiname = config.get('intwifiname','wlan0')
         self.ethip = "N/A"
         self.wifiip = "N/A"
         self.wifissid = "N/A"
@@ -15,12 +17,12 @@ class network_status:
             self.last_eventtime = eventtime
             logging.info("network_status get_status %d" % eventtime)
             try:
-                self.ethip = os.popen('ip addr show eth0').read().split("inet ")[1].split("/")[0]
+                self.ethip = os.popen("ip addr show %s" % self.intethname).read().split("inet ")[1].split("/")[0]
             except:
                 self.ethip = "N/A"
 
             try:
-                self.wifiip = os.popen('ip addr show wlan0').read().split("inet ")[1].split("/")[0]
+                self.wifiip = os.popen("ip addr show %s" % self.intwifiname).read().split("inet ")[1].split("/")[0]
                 self.wifissid = os.popen('iwgetid -r').read()[:-1]
             except:
                 self.wifiip = "N/A"
