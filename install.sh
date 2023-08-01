@@ -31,9 +31,9 @@ restart_klipper()
 # Helper functions
 verify_ready()
 {
-    if [ "$EUID" -eq 0 ]; then
-        echo "This script must not run as root"
-        exit -1
+    if [ -n "$EUID" ] && [ "$EUID" -eq 0 ]; then
+        echo "Error: This script must not run as root."
+        exit 1
     fi
 }
 
@@ -41,7 +41,7 @@ verify_ready()
 set -e
 
 # Find SRCDIR from the pathname of this script
-SRCDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )"/ && pwd )"
+SRCDIR="$( cd "$( dirname "$0" )"/ && pwd )"
 
 # Parse command line arguments
 while getopts "k:" arg; do
