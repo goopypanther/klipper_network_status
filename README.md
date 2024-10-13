@@ -3,14 +3,22 @@ Klipper Network Status Plugin
 
 Allow gcode macros to access system IP/hostname/wifi SSID/etc.
 
-To install, clone repo into your rpi home folder and run `install.sh`. You may
-also add the following to your moonraker configuration:
+To install this plugin, clone repo into your rpi home folder and run `install.sh`.
+
+```
+git clone https://github.com/goopypanther/klipper_network_status
+```
+
+```
+./klipper_network_status/install.sh
+```
+You may also add the following to your moonraker configuration to keep the plugin updated:
 
 ```
 [update_manager client klipper_network_status]
 type: git_repo
-path: /home/pi/klipper_network_status
-origin: https://github.com/JeremyRuhland/klipper_network_status
+path: ~/klipper_network_status
+origin: https://github.com/goopypanther/klipper_network_status.git
 install_script: install.sh
 ```
 
